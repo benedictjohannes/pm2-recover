@@ -3,14 +3,14 @@
 [![npm version](https://img.shields.io/npm/v/pm2-recover.svg)](https://www.npmjs.com/package/pm2-recover)
 
 
-`pm2-recover` reconstructs your PM2 processes after nvm switches or OS reinstalls by stripping broken absolute paths and regenerating clean pm2 start commands.
+`pm2-recover` reconstructs your `pm2 start` commands after nvm switches or OS reinstalls by stripping absolute paths.
 
-Unlike `pm2 resurrect` or `pm2 update`, **pm2-recover** deliberately strips pm2's saved absolute binary paths and environment details, maintaining only the directory from which the process is called from and the `pm2 start` args.
+Unlike `pm2 resurrect` or `pm2 update`, **pm2-recover** deliberately strips pm2's saved absolute binary paths and environment details, maintaining only the directory from which the process was started from and the `pm2 start` args.
 
 ## Usage:
 
 ```bash
-# Safe to file to review / edit (recommended)
+# Save to file for review / editing (recommended)
 npx pm2-recover -o recover.sh
 bash recover.sh
 
@@ -53,7 +53,9 @@ Here's an anonymized actual output from `npx pm2-recover` straight from my own d
 
 # Sets bash to stop script execution immediately after error
 set -euo pipefail
-# Execute pm2 kill first to ensure pm2 is processes would be created fresh, skip this line if you don't need to.
+
+# Execute pm2 kill first to ensure all pm2 processes are freshly recreated.
+# Skip this line if you don't need to.
 pm2 kill || true
 
 # [Shell-Wrapped] Process: web-client
@@ -81,9 +83,20 @@ pm2 save
 pm2 list
 ```
 
+### When to use
+
+`pm2-recover` might help you if:
+
+- pm2 resurrect fails after switching Node versions via nvm
+- PM2 shows your app as errored due to missing binary paths
+- Your PM2 dump contains values like `/home/user/.nvm/versions/node/vXX/bin`
+- You reinstalled your OS or moved your workspace
+- You want portable, clean pm2 start commands
+- You have a lot of pm2 processes you need to evaluate how it starts
+
 ### Why `pm2 resurrect` Fails After `nvm` Node Version Switches
 
-For a dev machine, `pm2` is great to configure a service and start/stop services as we switch projects to remember each start scripts, or even keep a lot of services running.
+For a dev machine, `pm2` is great to keep a lot of services running and to start/stop services as we switch projects without having to remember the start script.
 
 However, when we run `pm2` without an `ecosystem.config.js`, we might run a service like this:
 ```bash

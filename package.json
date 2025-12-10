@@ -1,7 +1,7 @@
 {
   "name": "pm2-recover",
-  "version": "1.0.2",
-  "description": "A utility to generate robust PM2 re-launch commands from a PM2 dump file, handling 'stopped' status, adding '--watch' flag, and correcting NVM paths.",
+  "version": "1.0.4",
+  "description": "A utility to recreate pm2 start commands from a PM2 dump file",
   "main": "pm2-recover.js",
   "bin": {
     "pm2-recover": "pm2-recover.js"
@@ -11,10 +11,17 @@
   },
   "keywords": [
     "pm2",
-    "recover",
+    "pm2 recover",
+    "pm2 dump",
+    "pm2 startup",
+    "nvm",
+    "nvm.sh",
+    "resurrect",
+    "restart",
     "nodejs",
     "devops",
-    "cli"
+    "cli",
+    "volta"
   ],
   "author": "benedictjohannes",
   "license": "MIT",

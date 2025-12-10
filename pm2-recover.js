@@ -150,7 +150,9 @@ function generateCommands(processes) {
     outputText +=
         '# Sets bash to stop script execution immediately after error\n'
     outputText += 'set -euo pipefail\n'
-    outputText += `# Execute pm2 kill first to ensure pm2 is processes would be created fresh, skip this line if you don't need to.\n`
+    outputText += '\n'
+    outputText += `# Execute pm2 kill first to ensure all pm2 processes are freshly recreated.\n`
+    outputText += `# Skip this line if you don't need to.\n`
     outputText += 'pm2 kill || true\n'
 
     processes.forEach(proc => {
