@@ -194,7 +194,7 @@ function generateCommands(processes) {
                 const nvmDir = process.env.NVM_DIR
                 const isNvmPath =
                     (nvmDir && pm_exec_path.includes(nvmDir)) ||
-                    pm_exec_path.includes('nvm/versions/node')
+                    pm_exec_path.includes(path.join('nvm', 'versions', 'node'))
 
                 if (pm_exec_path && isNvmPath) {
                     targetCommand = args[0]
@@ -206,7 +206,7 @@ function generateCommands(processes) {
                     commandArgs = pm_exec_path ? args : args.slice(1)
 
                     if (pm_exec_path && pm_exec_path.startsWith(dir)) {
-                        targetCommand = './' + path.basename(pm_exec_path)
+                        targetCommand = '.' + path.sep + path.basename(pm_exec_path)
                     }
                 }
             }
