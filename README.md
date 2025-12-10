@@ -8,7 +8,8 @@ Unlike `pm2 resurrect` or `pm2 update`, this tries to recreate pm2 processes **W
 This is useful to recreate the pm2 processes, like after switching NVM version.
 
 ## Usage:
-  `node recover.js [OPTIONS]`
+- `npx pm2-recover [OPTIONS]`
+- `node pm2-recover.js [OPTIONS]` (running directly)
 
 ## Options:
 - `-f`, `--dumpFile` `<path>`: (Optional) Specify a custom PM2 dump file path. Defaults to `~/.pm2/dump.pm2`.
@@ -26,4 +27,4 @@ This is useful to recreate the pm2 processes, like after switching NVM version.
 - `npx pm2-recover -o recovery-script.sh`: writes the output to a file
 - `npx pm2-recover | bash`: directly try to execute the output by piping to bash. Make sure you've inspected the output beforehand.
 
-For switching nvm managed node version, ensure you're using the desired node version because `pm2` keeps track of absolute path to the node executable.
+For switching nvm managed node version, ensure when you run the generated script, you're using the desired node version as `pm2` keeps track of absolute path to the node executable.

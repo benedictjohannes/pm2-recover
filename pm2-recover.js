@@ -1,20 +1,38 @@
 #!/usr/bin/env node
-/**
- * Script to generate robust PM2 re-launch commands directly from a PM2 dump file.
- * Features: Handles 'stopped' status, adds '--watch' flag, and includes --help functionality.
- *
- * Usage (Help):
- * node recover.js --help
- *
- * Usage (Default): Reads ~/.pm2/dump.pm2, prints commands to stdout.
- * node recover.js | bash
- *
- * Usage (Custom Input/Output):
- * node recover.js -f /path/to/custom.json -o commands.sh
- * node recover.js --outFile commands.sh
- *
- * Ensure 'nvm use <version>' is run before executing the output script.
- */
+
+// --- Help Text ---
+
+const PM2_DUMP_PATH_TILDE = path.join('~', '.pm2', 'dump.pm2') // For display only
+const helpText = `
+PM2 Recovery Shell Command Generator
+
+Description:
+  Generates shell commands to recreate PM2 processes based on pm2 dump file, 
+  correcting for environmental changes (like NVM version switching).
+  Useful to recreate numerous PM2 processes when path to Node executables change (eg using nvm)
+
+Usage:
+  node pm2-recover.js [OPTIONS]
+  npx pm2-recover [OPTIONS]
+
+Options:
+  -f, --dumpFile <path>   Specify a custom PM2 dump file path.
+                          (Default: ${PM2_DUMP_PATH_TILDE})
+  -o, --outFile <path>    Write generated commands to a file instead of stdout.
+  -h, --help              Show this help message.
+
+Features:
+  - Preserves process status: Processes originally 'stopped' are started then immediately stopped.
+  - Preserves watch mode: The --watch flag is added if defined in the original configuration.
+  - Corrects NVM paths: Switches old absolute Node paths to generic commands for environment flexibility.
+
+Example:
+  # Generate commands from a custom dump file and save for review
+  node recover.js -f /tmp/backup.json -o relaunch_script.sh
+
+  # Generate commands from default dump and pipe to bash (use caution!)
+  node recover.js | bash
+`
 
 const fs = require('fs')
 const path = require('path')
@@ -69,7 +87,6 @@ for (let i = 0; i < rawArgs.length; i++) {
 // --- Configuration & Defaults ---
 
 const PM2_DUMP_PATH = path.join(os.homedir(), '.pm2', 'dump.pm2')
-const PM2_DUMP_PATH_TILDE = path.join('~', '.pm2', 'dump.pm2') // For display only
 
 // Default input/output settings
 const INPUT_FILE = args.dumpFile || PM2_DUMP_PATH
@@ -81,35 +98,7 @@ let outputText = ''
 // --- Help Function ---
 
 if (Object.prototype.hasOwnProperty.call(args, 'help')) {
-    console.info(`
-PM2 Dev Mode Recovery Utility
-
-Description:
-  Generates shell commands to recreate PM2 processes based on pm2 dump file, 
-  correcting for environmental changes (like NVM version switching).
-
-Usage:
-  node pm2-recover.js [OPTIONS]
-  npx pm2-recover [OPTIONS]
-
-Options:
-  -f, --dumpFile <path>   Specify a custom PM2 dump file path.
-                          (Default: ${PM2_DUMP_PATH_TILDE})
-  -o, --outFile <path>    Write generated commands to a file instead of stdout.
-  -h, --help              Show this help message.
-
-Features:
-  - Preserves process status: Processes originally 'stopped' are started then immediately stopped.
-  - Preserves watch mode: The --watch flag is added if defined in the original configuration.
-  - Corrects NVM paths: Switches old absolute Node paths to generic commands for environment flexibility.
-
-Example:
-  # Generate commands from a custom dump file and save for review
-  node recover.js -f /tmp/backup.json -o relaunch_script.sh
-
-  # Generate commands from default dump and pipe to bash (use caution!)
-  node recover.js | bash
-    `)
+    console.info(helpText)
     process.exit(0)
 }
 
@@ -206,7 +195,8 @@ function generateCommands(processes) {
                     commandArgs = pm_exec_path ? args : args.slice(1)
 
                     if (pm_exec_path && pm_exec_path.startsWith(dir)) {
-                        targetCommand = '.' + path.sep + path.basename(pm_exec_path)
+                        targetCommand =
+                            '.' + path.sep + path.basename(pm_exec_path)
                     }
                 }
             }

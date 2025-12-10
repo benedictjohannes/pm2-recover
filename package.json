@@ -1,6 +1,6 @@
 {
   "name": "pm2-recover",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A utility to generate robust PM2 re-launch commands from a PM2 dump file, handling 'stopped' status, adding '--watch' flag, and correcting NVM paths.",
   "main": "pm2-recover.js",
   "bin": {
