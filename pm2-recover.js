@@ -149,7 +149,7 @@ function generateCommands(processes) {
         '# Structure: pm2 start --name NAME COMMAND [OPTIONS] -- ARGS\n\n'
     outputText +=
         '# Sets bash to stop script execution immediately after error\n'
-    outputText += 'set -e\n'
+    outputText += 'set -euo pipefail\n'
     outputText += `# Execute pm2 kill first to ensure pm2 is processes would be created fresh, skip this line if you don't need to.\n`
     outputText += 'pm2 kill\n'
 
