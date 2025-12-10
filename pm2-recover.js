@@ -1,7 +1,9 @@
 #!/usr/bin/env node
+const path = require('path')
+const fs = require('fs')
+const os = require('os')
 
 // --- Help Text ---
-
 const PM2_DUMP_PATH_TILDE = path.join('~', '.pm2', 'dump.pm2') // For display only
 const helpText = `
 PM2 Recovery Shell Command Generator
@@ -33,10 +35,6 @@ Example:
   # Generate commands from default dump and pipe to bash (use caution!)
   node recover.js | bash
 `
-
-const fs = require('fs')
-const path = require('path')
-const os = require('os')
 
 // --- Argument Parsing ---
 // Custom parser to support both space-separated and equal-sign syntax
