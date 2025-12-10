@@ -7,7 +7,7 @@
     "pm2-recover": "pm2-recover.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "bun test"
   },
   "keywords": [
     "pm2",
