@@ -1,0 +1,29 @@
+{
+  "name": "pm2-recover",
+  "version": "1.0.0",
+  "description": "A utility to generate robust PM2 re-launch commands from a PM2 dump file, handling 'stopped' status, adding '--watch' flag, and correcting NVM paths.",
+  "main": "pm2-recover.js",
+  "bin": {
+    "pm2-recover": "pm2-recover.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pm2",
+    "recover",
+    "nodejs",
+    "devops",
+    "cli"
+  ],
+  "author": "benedictjohannes",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benedictjohannes/pm2-recover.git"
+  },
+  "bugs": {
+    "url": "https://github.com/benedictjohannes/pm2-recover/issues"
+  },
+  "homepage": "https://github.com/benedictjohannes/pm2-recover#readme"
+}
