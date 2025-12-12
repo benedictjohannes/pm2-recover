@@ -1,6 +1,7 @@
 # PM2 Dev Mode Recovery Utility
 
 [![npm version](https://img.shields.io/npm/v/pm2-recover.svg)](https://www.npmjs.com/package/pm2-recover)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
 `pm2-recover` reconstructs your `pm2 start` commands after nvm switches or OS reinstalls by stripping absolute paths.
