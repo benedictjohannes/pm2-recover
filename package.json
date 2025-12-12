@@ -1,6 +1,6 @@
 {
   "name": "pm2-recover",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A utility to recreate pm2 start commands from a PM2 dump file",
   "main": "pm2-recover.js",
   "bin": {
